@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Customer\AuthController as CustomerAuthController;
 use App\Http\Controllers\Api\Customer\BusinessController as CustomerBusinessController;
 use App\Http\Controllers\Api\Customer\QueueController as CustomerQueueController;
+use App\Http\Controllers\Api\MidtransWebhookController;
 use App\Http\Controllers\Api\Owner\AuthController as OwnerAuthController;
 use App\Http\Controllers\Api\Owner\DashboardController as OwnerDashboardController;
 
@@ -48,3 +49,5 @@ Route::prefix('owner')->group(function () {
         Route::post('/dashboard/queues/{queue}/no-show', [OwnerDashboardController::class, 'markAsNoShow']);
     });
 });
+
+Route::post('/midtrans/webhook', [MidtransWebhookController::class, 'handle']);
