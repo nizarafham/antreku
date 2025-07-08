@@ -11,12 +11,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAuth();
+    print('SplashScreen: initState called.');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAuth();
+    });
   }
 
   void _checkAuth() async {
+    print('SplashScreen: _checkAuth started.');
     await Provider.of<AuthProvider>(context, listen: false).tryAutoLogin();
-    // Navigasi terjadi di main.dart berdasarkan state isAuthenticated
+    print('SplashScreen: tryAutoLogin completed.');
   }
 
   @override
