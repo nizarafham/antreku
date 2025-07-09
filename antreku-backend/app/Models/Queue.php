@@ -37,4 +37,9 @@ class Queue extends Model
     {
         return $this->hasOne(Transaction::class);
     }
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

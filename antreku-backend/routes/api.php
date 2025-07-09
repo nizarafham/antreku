@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Customer\QueueController as CustomerQueueController
 use App\Http\Controllers\Api\MidtransWebhookController;
 use App\Http\Controllers\Api\Owner\AuthController as OwnerAuthController;
 use App\Http\Controllers\Api\Owner\DashboardController as OwnerDashboardController;
+use App\Http\Controllers\Api\Owner\BusinessController as OwnerBusinessController;
 
 // --- Rute untuk Pelanggan (Customer Web) ---
 Route::prefix('customer')->group(function () {
@@ -32,7 +33,6 @@ Route::prefix('customer')->group(function () {
 });
 
 
-// --- Rute untuk Pemilik Usaha (Flutter App) ---
 Route::prefix('owner')->group(function () {
     // Rute Autentikasi Pemilik Usaha
     Route::post('/login', [OwnerAuthController::class, 'login']);
@@ -47,6 +47,12 @@ Route::prefix('owner')->group(function () {
         Route::post('/dashboard/queues/{queue}/call', [OwnerDashboardController::class, 'callCustomer']);
         Route::post('/dashboard/queues/{queue}/complete', [OwnerDashboardController::class, 'markAsCompleted']);
         Route::post('/dashboard/queues/{queue}/no-show', [OwnerDashboardController::class, 'markAsNoShow']);
+
+        // ======================================================
+        // TAMBAHKAN DUA RUTE INI UNTUK MANAJEMEN BISNIS
+        // ======================================================
+        Route::post('/business', [OwnerBusinessController::class, 'store']);
+        Route::post('/business/toggle-status', [OwnerBusinessController::class, 'toggleStatus']);
     });
 });
 

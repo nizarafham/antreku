@@ -23,7 +23,7 @@
                     <p class="text-sm text-gray-500">No. Antrean: {{ $queue->queue_number }}</p>
                     <p class="text-sm text-gray-500">Jadwal: {{ \Carbon\Carbon::parse($queue->scheduled_at)->isoFormat('dddd, D MMMM YYYY - HH:mm') }}</p>
                 </div>
-                <span class="px-3 py-1 text-sm font-medium rounded-full 
+                <span class="px-3 py-1 text-sm font-medium rounded-full
                     @if(in_array($queue->status, ['waiting_payment', 'confirmed'])) bg-yellow-100 text-yellow-800 @endif
                     @if(in_array($queue->status, ['called', 'in_progress'])) bg-blue-100 text-blue-800 @endif
                     @if($queue->status == 'completed') bg-green-100 text-green-800 @endif
@@ -34,8 +34,8 @@
             </div>
             @if($queue->transaction)
             <div class="mt-2 pt-2 border-t">
-                <p class="text-sm">Status Pembayaran: 
-                    <span class="font-semibold 
+                <p class="text-sm">Status Pembayaran:
+                    <span class="font-semibold
                         @if($queue->transaction->status == 'pending') text-yellow-600 @endif
                         @if($queue->transaction->status == 'success') text-green-600 @endif
                         @if($queue->transaction->status == 'failed') text-red-600 @endif

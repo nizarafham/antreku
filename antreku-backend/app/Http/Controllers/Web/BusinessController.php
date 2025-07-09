@@ -19,16 +19,17 @@ class BusinessController extends Controller
     {
         $business = Business::where('slug', $slug)->firstOrFail();
 
-        // Ambil tanggal dari request, atau default ke hari ini
-        $selectedDate = $request->input('date', Carbon::today()->format('Y-m-d'));
+        // TAMBAHKAN INI: Ambil semua layanan yang tersedia
+        $services = $business->services()->where('is_available', true)->get();
 
-        // Ambil slot yang tersedia untuk tanggal yang dipilih
+        $selectedDate = $request->input('date', Carbon::today()->format('Y-m-d'));
         $slots = $business->queueSlots()
             ->whereDate('slot_datetime', $selectedDate)
             ->where('is_available', true)
             ->orderBy('slot_datetime', 'asc')
             ->get();
 
-        return view('pages.businesses.show', compact('business', 'slots', 'selectedDate'));
+        // UBAH INI: Kirim variabel $services ke view
+        return view('pages.businesses.show', compact('business', 'services', 'slots', 'selectedDate'));
     }
 }

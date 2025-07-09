@@ -1,3 +1,4 @@
+import 'package:antreku_owner_app/models/business_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,17 +38,16 @@ class ApiService {
     }
   }
   
-  Future<List<Queue>> getTodaysQueues() async {
+  Future<Map<String, dynamic>> getTodaysQueues() async {
     final response = await http.get(
       Uri.parse('$_baseUrl/dashboard/queues'),
       headers: await _getHeaders(),
     );
 
     if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => Queue.fromJson(json)).toList();
+      return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load queues');
+      throw Exception('Failed to load queues. Status code: ${response.statusCode}');
     }
   }
 
@@ -60,6 +60,34 @@ class ApiService {
 
     if (response.statusCode != 200) {
       throw Exception('Failed to update queue status: ${response.body}');
+    }
+  }
+
+  Future<Business> createBusiness(Map<String, dynamic> businessData) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/business'),
+      headers: await _getHeaders(),
+      body: jsonEncode(businessData),
+    );
+
+    if (response.statusCode == 201) {
+      return Business.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create business: ${response.body}');
+    }
+  }
+
+  // Method baru untuk toggle status buka/tutup
+  Future<bool> toggleBusinessStatus() async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/business/toggle-status'),
+      headers: await _getHeaders(),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['is_open'];
+    } else {
+      throw Exception('Failed to toggle status: ${response.body}');
     }
   }
 }
