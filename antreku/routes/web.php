@@ -8,6 +8,9 @@ use App\Http\Controllers\Umkm\ServiceController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\Admin\BusinessManagementController;
 use App\Http\Controllers\BrowseController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MidtransNotificationController;
+use App\Http\Controllers\MyBookingsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +18,8 @@ Route::get('/', function () {
 
 Route::get('/businesses', [BrowseController::class, 'index'])->name('browse.index');
 Route::get('/businesses/{business}', [BrowseController::class, 'show'])->name('browse.show');
+
+Route::post('/midtrans/notification', [MidtransNotificationController::class, 'handle']);
 
 Route::get('/dashboard', [DashboardRedirectController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('dashboard');
@@ -40,13 +45,20 @@ Route::middleware(['auth', 'verified', 'umkm'])->prefix('umkm')->name('umkm.')->
 
     Route::resource('services', ServiceController::class);
 
-    // Nanti kita bisa tambahkan rute untuk edit, update, kelola layanan, dll di sini
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/booking/service/{service}', [BookingController::class, 'create'])->name('booking.create');
+    Route::post('/booking/service/{service}', [BookingController::class, 'store'])->name('booking.store');
+    Route::get('/booking/slots/{service}', [BookingController::class, 'getAvailableSlots'])->name('booking.slots');
+    Route::get('/booking/success/{queue}', [BookingController::class, 'success'])->name('booking.success');
+
+    Route::get('/my-bookings', [MyBookingsController::class, 'index'])->name('my-bookings.index');
+
 });
 
 require __DIR__.'/auth.php';

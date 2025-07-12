@@ -27,7 +27,7 @@
                                 <p class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mt-1">Rp {{ number_format($service->price, 0, ',', '.') }}</p>
                             </div>
                             <div>
-                                <a href="#" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
+                                <a href="{{ route('booking.create', $service) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
                                     Pesan Sekarang
                                 </a>
                             </div>

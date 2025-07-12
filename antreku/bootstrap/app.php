@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'umkm' => \App\Http\Middleware\UmkmMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'midtrans/notification',
+        ]);
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {
