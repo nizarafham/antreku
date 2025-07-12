@@ -4,12 +4,17 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Umkm\BusinessController;
+use App\Http\Controllers\Umkm\ServiceController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\Admin\BusinessManagementController;
+use App\Http\Controllers\BrowseController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/businesses', [BrowseController::class, 'index'])->name('browse.index');
+Route::get('/businesses/{business}', [BrowseController::class, 'show'])->name('browse.show');
 
 Route::get('/dashboard', [DashboardRedirectController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('dashboard');
@@ -32,6 +37,8 @@ Route::middleware(['auth', 'verified', 'umkm'])->prefix('umkm')->name('umkm.')->
     // Rute untuk membuat dan menyimpan bisnis
     Route::get('/business/create', [BusinessController::class, 'create'])->name('business.create');
     Route::post('/business', [BusinessController::class, 'store'])->name('business.store');
+
+    Route::resource('services', ServiceController::class);
 
     // Nanti kita bisa tambahkan rute untuk edit, update, kelola layanan, dll di sini
 });
