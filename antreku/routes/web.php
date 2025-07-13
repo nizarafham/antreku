@@ -11,6 +11,7 @@ use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\MidtransNotificationController;
 use App\Http\Controllers\MyBookingsController;
+use App\Http\Controllers\Umkm\QueueManagementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +45,10 @@ Route::middleware(['auth', 'verified', 'umkm'])->prefix('umkm')->name('umkm.')->
     Route::post('/business', [BusinessController::class, 'store'])->name('business.store');
 
     Route::resource('services', ServiceController::class);
+
+    Route::get('/queue', [QueueManagementController::class, 'index'])->name('queue.index');
+    Route::patch('/queue/{queue}/call', [QueueManagementController::class, 'call'])->name('queue.call');
+    Route::patch('/queue/{queue}/complete', [QueueManagementController::class, 'complete'])->name('queue.complete');
 
 });
 
